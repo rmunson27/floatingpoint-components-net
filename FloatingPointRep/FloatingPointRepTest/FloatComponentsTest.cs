@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace RemTest.Core.Numerics;
 
 /// <summary>
-/// Tests of the <see cref="FloatRep"/> struct.
+/// Tests of the <see cref="FloatComponents"/> struct.
 /// </summary>
 [TestClass]
-public class FloatRepTest
+public class FloatComponentsTest
 {
     private const float MaxNegativeValue = -MinPositiveValue;
     private const float MinPositiveValue = float.Epsilon;
@@ -35,13 +35,13 @@ public class FloatRepTest
 
         foreach (var test in tests)
         {
-            var testRep = new FloatRep(test);
+            var testRep = new FloatComponents(test);
             Assert.AreEqual(test, testRep.ToFloat(), $"Float value {test} could not be reproduced.");
         }
     }
 
     /// <summary>
-    /// Tests categorization of various <see cref="float"/> values via the <see cref="FloatRep"/> type.
+    /// Tests categorization of various <see cref="float"/> values via the <see cref="FloatComponents"/> type.
     /// </summary>
     [TestMethod]
     public void TestCategorization()
@@ -63,19 +63,19 @@ public class FloatRepTest
 
         foreach (var (Value, IsNegative, IsNaN, IsInfinity, IsFinite, IsSubnormal, IsZero) in tests)
         {
-            var testRep = new FloatRep(Value);
+            var testRep = new FloatComponents(Value);
 
-            Assert.AreEqual(IsNegative, testRep.IsNegative, $"{Value} {nameof(FloatRep.IsNegative)} mismatch.");
-            Assert.AreEqual(IsNaN, testRep.IsNaN, $"{Value} {nameof(FloatRep.IsNaN)} mismatch.");
-            Assert.AreEqual(IsInfinity, testRep.IsInfinity, $"{Value} {nameof(FloatRep.IsInfinity)} mismatch.");
-            Assert.AreEqual(IsFinite, testRep.IsFinite, $"{Value} {nameof(FloatRep.IsFinite)} mismatch.");
-            Assert.AreEqual(IsSubnormal, testRep.IsSubnormal, $"{Value} {nameof(FloatRep.IsSubnormal)} mismatch.");
-            Assert.AreEqual(IsZero, testRep.IsZero, $"{Value} {nameof(FloatRep.IsZero)} mismatch.");
+            Assert.AreEqual(IsNegative, testRep.IsNegative, $"{Value} {nameof(FloatComponents.IsNegative)} mismatch.");
+            Assert.AreEqual(IsNaN, testRep.IsNaN, $"{Value} {nameof(FloatComponents.IsNaN)} mismatch.");
+            Assert.AreEqual(IsInfinity, testRep.IsInfinity, $"{Value} {nameof(FloatComponents.IsInfinity)} mismatch.");
+            Assert.AreEqual(IsFinite, testRep.IsFinite, $"{Value} {nameof(FloatComponents.IsFinite)} mismatch.");
+            Assert.AreEqual(IsSubnormal, testRep.IsSubnormal, $"{Value} {nameof(FloatComponents.IsSubnormal)} mismatch.");
+            Assert.AreEqual(IsZero, testRep.IsZero, $"{Value} {nameof(FloatComponents.IsZero)} mismatch.");
         }
     }
 
     /// <summary>
-    /// Tests the getters for the logical components of <see cref="FloatRep"/> instances.
+    /// Tests the getters for the logical components of <see cref="FloatComponents"/> instances.
     /// </summary>
     [TestMethod]
     public void TestLogicalComponents()
@@ -84,58 +84,58 @@ public class FloatRepTest
         {
             (Value: float.NaN,
              Sign: -1,
-             Exponent: FloatRep.MaxLogicalExponent,
-             Mantissa: FloatRep.ImplicitMantissaBit | (1uL << (FloatRep.MantissaBitLength - 1))),
+             Exponent: FloatComponents.MaxLogicalExponent,
+             Mantissa: FloatComponents.ImplicitMantissaBit | (1uL << (FloatComponents.MantissaBitLength - 1))),
             (Value: float.PositiveInfinity,
              Sign: 1,
-             Exponent: FloatRep.MaxLogicalExponent,
-             Mantissa: FloatRep.ImplicitMantissaBit),
+             Exponent: FloatComponents.MaxLogicalExponent,
+             Mantissa: FloatComponents.ImplicitMantissaBit),
             (Value: float.NegativeInfinity,
              Sign: -1,
-             Exponent: FloatRep.MaxLogicalExponent,
-             Mantissa: FloatRep.ImplicitMantissaBit),
+             Exponent: FloatComponents.MaxLogicalExponent,
+             Mantissa: FloatComponents.ImplicitMantissaBit),
             (Value: float.MaxValue,
              Sign: 1,
-             Exponent: FloatRep.MaxFiniteLogicalExponent,
-             Mantissa: FloatRep.MaxLogicalMantissa),
+             Exponent: FloatComponents.MaxFiniteLogicalExponent,
+             Mantissa: FloatComponents.MaxLogicalMantissa),
             (Value: float.MinValue,
              Sign: -1,
-             Exponent: FloatRep.MaxFiniteLogicalExponent,
-             Mantissa: FloatRep.MaxLogicalMantissa),
+             Exponent: FloatComponents.MaxFiniteLogicalExponent,
+             Mantissa: FloatComponents.MaxLogicalMantissa),
             (Value: 0.0f,
              Sign: 1,
-             Exponent: FloatRep.MinLogicalExponent,
+             Exponent: FloatComponents.MinLogicalExponent,
              Mantissa: 0),
             (Value: -0.0f,
              Sign: -1,
-             Exponent: FloatRep.MinLogicalExponent,
+             Exponent: FloatComponents.MinLogicalExponent,
              Mantissa: 0),
             (Value: MinPositiveValue,
              Sign: 1,
-             Exponent: FloatRep.MinLogicalExponent,
+             Exponent: FloatComponents.MinLogicalExponent,
              Mantissa: 1),
             (Value: MaxNegativeValue,
              Sign: -1,
-             Exponent: FloatRep.MinLogicalExponent,
+             Exponent: FloatComponents.MinLogicalExponent,
              Mantissa: 1),
         };
 
         foreach (var (Value, Sign, Exponent, Mantissa) in tests)
         {
-            var testRep = new FloatRep(Value);
+            var testRep = new FloatComponents(Value);
 
-            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(FloatRep.LogicalSign)} mismatch for {Value}.");
+            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(FloatComponents.LogicalSign)} mismatch for {Value}.");
             Assert.AreEqual(
-                Exponent, testRep.LogicalExponent, $"{nameof(FloatRep.LogicalExponent)} mismatch for {Value}.");
+                Exponent, testRep.LogicalExponent, $"{nameof(FloatComponents.LogicalExponent)} mismatch for {Value}.");
             Assert.AreEqual(
                 Mantissa, testRep.LogicalMantissa,
-                $"{nameof(FloatRep.LogicalMantissa)} mismatch for {Value} "
+                $"{nameof(FloatComponents.LogicalMantissa)} mismatch for {Value} "
                     + $"(expected: {Mantissa:X}, actual: {testRep.LogicalMantissa:X}).");
         }
     }
 
     /// <summary>
-    /// Tests the getters for the normalized logical components of <see cref="FloatRep"/> instances.
+    /// Tests the getters for the normalized logical components of <see cref="FloatComponents"/> instances.
     /// </summary>
     [TestMethod]
     public void TestNormalizedLogicalComponents()
@@ -144,24 +144,24 @@ public class FloatRepTest
         {
             (Value: float.NaN,
              Sign: -1,
-             Exponent: FloatRep.MaxLogicalExponent + FloatRep.MantissaBitLength - 1,
+             Exponent: FloatComponents.MaxLogicalExponent + FloatComponents.MantissaBitLength - 1,
              Mantissa: 3),
             (Value: float.PositiveInfinity,
              Sign: 1,
-             Exponent: FloatRep.MaxLogicalExponent + FloatRep.MantissaBitLength,
+             Exponent: FloatComponents.MaxLogicalExponent + FloatComponents.MantissaBitLength,
              Mantissa: 1),
             (Value: float.NegativeInfinity,
              Sign: -1,
-             Exponent: FloatRep.MaxLogicalExponent + FloatRep.MantissaBitLength,
+             Exponent: FloatComponents.MaxLogicalExponent + FloatComponents.MantissaBitLength,
              Mantissa: 1),
             (Value: float.MaxValue,
              Sign: 1,
-             Exponent: FloatRep.MaxFiniteLogicalExponent,
-             Mantissa: FloatRep.MaxLogicalMantissa),
+             Exponent: FloatComponents.MaxFiniteLogicalExponent,
+             Mantissa: FloatComponents.MaxLogicalMantissa),
             (Value: float.MinValue,
              Sign: -1,
-             Exponent: FloatRep.MaxFiniteLogicalExponent,
-             Mantissa: FloatRep.MaxLogicalMantissa),
+             Exponent: FloatComponents.MaxFiniteLogicalExponent,
+             Mantissa: FloatComponents.MaxLogicalMantissa),
             (Value: 0.0f,
              Sign: 1,
              Exponent: 0, // Should be simplified to 0
@@ -172,25 +172,25 @@ public class FloatRepTest
              Mantissa: 0),
             (Value: MinPositiveValue,
              Sign: 1,
-             Exponent: FloatRep.MinLogicalExponent,
+             Exponent: FloatComponents.MinLogicalExponent,
              Mantissa: 1),
             (Value: MaxNegativeValue,
              Sign: -1,
-             Exponent: FloatRep.MinLogicalExponent,
+             Exponent: FloatComponents.MinLogicalExponent,
              Mantissa: 1),
         };
 
         foreach (var (Value, Sign, Exponent, Mantissa) in tests)
         {
-            var testRep = new FloatRep(Value);
+            var testRep = new FloatComponents(Value);
 
-            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(FloatRep.LogicalSign)} mismatch for {Value}.");
+            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(FloatComponents.LogicalSign)} mismatch for {Value}.");
             Assert.AreEqual(
                 Exponent, testRep.NormalizedLogicalExponent,
-                $"{nameof(FloatRep.NormalizedLogicalExponent)} mismatch for {Value}.");
+                $"{nameof(FloatComponents.NormalizedLogicalExponent)} mismatch for {Value}.");
             Assert.AreEqual(
                 Mantissa, testRep.NormalizedLogicalMantissa,
-                $"{nameof(FloatRep.NormalizedLogicalMantissa)} mismatch for {Value} "
+                $"{nameof(FloatComponents.NormalizedLogicalMantissa)} mismatch for {Value} "
                     + $"(expected: {Mantissa:X}, actual: {testRep.NormalizedLogicalMantissa:X}).");
         }
     }

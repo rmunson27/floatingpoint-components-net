@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace RemTest.Core.Numerics;
 
 /// <summary>
-/// Tests of the <see cref="DoubleRep"/> struct.
+/// Tests of the <see cref="DoubleComponents"/> struct.
 /// </summary>
 [TestClass]
-public class DoubleRepTest
+public class DoubleComponentsTest
 {
     private const double MaxNegativeValue = -MinPositiveValue;
     private const double MinPositiveValue = double.Epsilon;
@@ -35,13 +35,13 @@ public class DoubleRepTest
 
         foreach (var test in tests)
         {
-            var testRep = new DoubleRep(test);
+            var testRep = new DoubleComponents(test);
             Assert.AreEqual(test, testRep.ToDouble(), $"Double value {test} could not be reproduced.");
         }
     }
 
     /// <summary>
-    /// Tests categorization of various <see cref="double"/> values via the <see cref="DoubleRep"/> type.
+    /// Tests categorization of various <see cref="double"/> values via the <see cref="DoubleComponents"/> type.
     /// </summary>
     [TestMethod]
     public void TestCategorization()
@@ -63,19 +63,19 @@ public class DoubleRepTest
 
         foreach (var (Value, IsNegative, IsNaN, IsInfinity, IsFinite, IsSubnormal, IsZero) in tests)
         {
-            var testRep = new DoubleRep(Value);
+            var testRep = new DoubleComponents(Value);
 
-            Assert.AreEqual(IsNegative, testRep.IsNegative, $"{Value} {nameof(DoubleRep.IsNegative)} mismatch.");
-            Assert.AreEqual(IsNaN, testRep.IsNaN, $"{Value} {nameof(DoubleRep.IsNaN)} mismatch.");
-            Assert.AreEqual(IsInfinity, testRep.IsInfinity, $"{Value} {nameof(DoubleRep.IsInfinity)} mismatch.");
-            Assert.AreEqual(IsFinite, testRep.IsFinite, $"{Value} {nameof(DoubleRep.IsFinite)} mismatch.");
-            Assert.AreEqual(IsSubnormal, testRep.IsSubnormal, $"{Value} {nameof(DoubleRep.IsSubnormal)} mismatch.");
-            Assert.AreEqual(IsZero, testRep.IsZero, $"{Value} {nameof(DoubleRep.IsZero)} mismatch.");
+            Assert.AreEqual(IsNegative, testRep.IsNegative, $"{Value} {nameof(DoubleComponents.IsNegative)} mismatch.");
+            Assert.AreEqual(IsNaN, testRep.IsNaN, $"{Value} {nameof(DoubleComponents.IsNaN)} mismatch.");
+            Assert.AreEqual(IsInfinity, testRep.IsInfinity, $"{Value} {nameof(DoubleComponents.IsInfinity)} mismatch.");
+            Assert.AreEqual(IsFinite, testRep.IsFinite, $"{Value} {nameof(DoubleComponents.IsFinite)} mismatch.");
+            Assert.AreEqual(IsSubnormal, testRep.IsSubnormal, $"{Value} {nameof(DoubleComponents.IsSubnormal)} mismatch.");
+            Assert.AreEqual(IsZero, testRep.IsZero, $"{Value} {nameof(DoubleComponents.IsZero)} mismatch.");
         }
     }
 
     /// <summary>
-    /// Tests the getters for the logical components of <see cref="DoubleRep"/> instances.
+    /// Tests the getters for the logical components of <see cref="DoubleComponents"/> instances.
     /// </summary>
     [TestMethod]
     public void TestLogicalComponents()
@@ -84,58 +84,58 @@ public class DoubleRepTest
         {
             (Value: double.NaN,
              Sign: -1,
-             Exponent: DoubleRep.MaxLogicalExponent,
-             Mantissa: DoubleRep.ImplicitMantissaBit | (1uL << (DoubleRep.MantissaBitLength - 1))),
+             Exponent: DoubleComponents.MaxLogicalExponent,
+             Mantissa: DoubleComponents.ImplicitMantissaBit | (1uL << (DoubleComponents.MantissaBitLength - 1))),
             (Value: double.PositiveInfinity,
              Sign: 1,
-             Exponent: DoubleRep.MaxLogicalExponent,
-             Mantissa: DoubleRep.ImplicitMantissaBit),
+             Exponent: DoubleComponents.MaxLogicalExponent,
+             Mantissa: DoubleComponents.ImplicitMantissaBit),
             (Value: double.NegativeInfinity,
              Sign: -1,
-             Exponent: DoubleRep.MaxLogicalExponent,
-             Mantissa: DoubleRep.ImplicitMantissaBit),
+             Exponent: DoubleComponents.MaxLogicalExponent,
+             Mantissa: DoubleComponents.ImplicitMantissaBit),
             (Value: double.MaxValue,
              Sign: 1,
-             Exponent: DoubleRep.MaxFiniteLogicalExponent,
-             Mantissa: DoubleRep.MaxLogicalMantissa),
+             Exponent: DoubleComponents.MaxFiniteLogicalExponent,
+             Mantissa: DoubleComponents.MaxLogicalMantissa),
             (Value: double.MinValue,
              Sign: -1,
-             Exponent: DoubleRep.MaxFiniteLogicalExponent,
-             Mantissa: DoubleRep.MaxLogicalMantissa),
+             Exponent: DoubleComponents.MaxFiniteLogicalExponent,
+             Mantissa: DoubleComponents.MaxLogicalMantissa),
             (Value: 0.0,
              Sign: 1,
-             Exponent: DoubleRep.MinLogicalExponent,
+             Exponent: DoubleComponents.MinLogicalExponent,
              Mantissa: 0),
             (Value: -0.0,
              Sign: -1,
-             Exponent: DoubleRep.MinLogicalExponent,
+             Exponent: DoubleComponents.MinLogicalExponent,
              Mantissa: 0),
             (Value: MinPositiveValue,
              Sign: 1,
-             Exponent: DoubleRep.MinLogicalExponent,
+             Exponent: DoubleComponents.MinLogicalExponent,
              Mantissa: 1),
             (Value: MaxNegativeValue,
              Sign: -1,
-             Exponent: DoubleRep.MinLogicalExponent,
+             Exponent: DoubleComponents.MinLogicalExponent,
              Mantissa: 1),
         };
 
         foreach (var (Value, Sign, Exponent, Mantissa) in tests)
         {
-            var testRep = new DoubleRep(Value);
+            var testRep = new DoubleComponents(Value);
 
-            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(DoubleRep.LogicalSign)} mismatch for {Value}.");
+            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(DoubleComponents.LogicalSign)} mismatch for {Value}.");
             Assert.AreEqual(
-                Exponent, testRep.LogicalExponent, $"{nameof(DoubleRep.LogicalExponent)} mismatch for {Value}.");
+                Exponent, testRep.LogicalExponent, $"{nameof(DoubleComponents.LogicalExponent)} mismatch for {Value}.");
             Assert.AreEqual(
                 Mantissa, testRep.LogicalMantissa,
-                $"{nameof(DoubleRep.LogicalMantissa)} mismatch for {Value} "
+                $"{nameof(DoubleComponents.LogicalMantissa)} mismatch for {Value} "
                     + $"(expected: {Mantissa:X}, actual: {testRep.LogicalMantissa:X}).");
         }
     }
 
     /// <summary>
-    /// Tests the getters for the normalized logical components of <see cref="DoubleRep"/> instances.
+    /// Tests the getters for the normalized logical components of <see cref="DoubleComponents"/> instances.
     /// </summary>
     [TestMethod]
     public void TestNormalizedLogicalComponents()
@@ -144,24 +144,24 @@ public class DoubleRepTest
         {
             (Value: double.NaN,
              Sign: -1,
-             Exponent: DoubleRep.MaxLogicalExponent + DoubleRep.MantissaBitLength - 1,
+             Exponent: DoubleComponents.MaxLogicalExponent + DoubleComponents.MantissaBitLength - 1,
              Mantissa: 3),
             (Value: double.PositiveInfinity,
              Sign: 1,
-             Exponent: DoubleRep.MaxLogicalExponent + DoubleRep.MantissaBitLength,
+             Exponent: DoubleComponents.MaxLogicalExponent + DoubleComponents.MantissaBitLength,
              Mantissa: 1),
             (Value: double.NegativeInfinity,
              Sign: -1,
-             Exponent: DoubleRep.MaxLogicalExponent + DoubleRep.MantissaBitLength,
+             Exponent: DoubleComponents.MaxLogicalExponent + DoubleComponents.MantissaBitLength,
              Mantissa: 1),
             (Value: double.MaxValue,
              Sign: 1,
-             Exponent: DoubleRep.MaxFiniteLogicalExponent,
-             Mantissa: DoubleRep.MaxLogicalMantissa),
+             Exponent: DoubleComponents.MaxFiniteLogicalExponent,
+             Mantissa: DoubleComponents.MaxLogicalMantissa),
             (Value: double.MinValue,
              Sign: -1,
-             Exponent: DoubleRep.MaxFiniteLogicalExponent,
-             Mantissa: DoubleRep.MaxLogicalMantissa),
+             Exponent: DoubleComponents.MaxFiniteLogicalExponent,
+             Mantissa: DoubleComponents.MaxLogicalMantissa),
             (Value: 0.0,
              Sign: 1,
              Exponent: 0, // Should be simplified to 0
@@ -172,25 +172,25 @@ public class DoubleRepTest
              Mantissa: 0),
             (Value: MinPositiveValue,
              Sign: 1,
-             Exponent: DoubleRep.MinLogicalExponent,
+             Exponent: DoubleComponents.MinLogicalExponent,
              Mantissa: 1),
             (Value: MaxNegativeValue,
              Sign: -1,
-             Exponent: DoubleRep.MinLogicalExponent,
+             Exponent: DoubleComponents.MinLogicalExponent,
              Mantissa: 1),
         };
 
         foreach (var (Value, Sign, Exponent, Mantissa) in tests)
         {
-            var testRep = new DoubleRep(Value);
+            var testRep = new DoubleComponents(Value);
 
-            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(DoubleRep.LogicalSign)} mismatch for {Value}.");
+            Assert.AreEqual(Sign, testRep.LogicalSign, $"{nameof(DoubleComponents.LogicalSign)} mismatch for {Value}.");
             Assert.AreEqual(
                 Exponent, testRep.NormalizedLogicalExponent,
-                $"{nameof(DoubleRep.NormalizedLogicalExponent)} mismatch for {Value}.");
+                $"{nameof(DoubleComponents.NormalizedLogicalExponent)} mismatch for {Value}.");
             Assert.AreEqual(
                 Mantissa, testRep.NormalizedLogicalMantissa,
-                $"{nameof(DoubleRep.NormalizedLogicalMantissa)} mismatch for {Value} "
+                $"{nameof(DoubleComponents.NormalizedLogicalMantissa)} mismatch for {Value} "
                     + $"(expected: {Mantissa:X}, actual: {testRep.NormalizedLogicalMantissa:X}).");
         }
     }

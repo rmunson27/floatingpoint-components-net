@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace Rem.Core.Numerics;
 
 /// <summary>
-/// Represents a <see cref="float"/> as exponent, mantissa and sign bit.
+/// Represents a <see cref="double"/> as exponent, mantissa and sign bit.
 /// </summary>
-public readonly record struct FloatRep
+public readonly record struct DoubleComponents
 {
     #region Constants
     #region Components
     /// <summary>
-    /// The maximum logical exponent value of finite <see cref="float"/> values.
+    /// The maximum logical exponent value of finite <see cref="double"/> values.
     /// </summary>
     public const short MaxFiniteLogicalExponent = MaxFiniteLiteralExponent - ExponentBias - MantissaBitLength;
 
@@ -37,12 +37,12 @@ public readonly record struct FloatRep
         = 1 - ExponentBias - MantissaBitLength; // Subtract from 1 to adjust for subnormal range
 
     /// <summary>
-    /// The bias of the exponent of a <see cref="float"/>.
+    /// The bias of the exponent of a <see cref="double"/>.
     /// </summary>
-    public const byte ExponentBias = 127;
+    public const ushort ExponentBias = 1023;
 
     /// <summary>
-    /// The maximum literal exponent value of finite <see cref="float"/> values.
+    /// The maximum literal exponent value of finite <see cref="double"/> values.
     /// </summary>
     public const ushort MaxFiniteLiteralExponent = MaxLiteralExponent - 1;
 
@@ -52,34 +52,34 @@ public readonly record struct FloatRep
     /// <remarks>
     /// This uniquely identifies non-finite values.
     /// </remarks>
-    public const byte MaxLiteralExponent = byte.MaxValue;
+    public const ushort MaxLiteralExponent = 0x7FF;
 
     /// <summary>
     /// The maximum logical mantissa value.
     /// </summary>
-    public const uint MaxLogicalMantissa = MaxLiteralMantissa | ImplicitMantissaBit;
+    public const ulong MaxLogicalMantissa = MaxLiteralMantissa | ImplicitMantissaBit;
 
     /// <summary>
-    /// The bit that is implicitly set in non-zero, non-subnormal <see cref="float"/> mantissas.
+    /// The bit that is implicitly set in non-zero, non-subnormal <see cref="double"/> mantissas.
     /// </summary>
-    public const uint ImplicitMantissaBit = 1u << MantissaBitLength;
+    public const ulong ImplicitMantissaBit = 1uL << MantissaBitLength;
 
     /// <summary>
     /// The maximum literal mantissa value.
     /// </summary>
-    public const uint MaxLiteralMantissa = 0x7FFFFF;
+    public const ulong MaxLiteralMantissa = 0xFFFFFFFFFFFFF;
     #endregion
 
     #region Bit Lengths
     /// <summary>
-    /// The length of the mantissa of a <see cref="float"/> in bits.
+    /// The length of the mantissa of a <see cref="double"/> in bits.
     /// </summary>
-    public const int MantissaBitLength = 23;
+    public const int MantissaBitLength = 52;
 
     /// <summary>
-    /// The length of the exponent of a <see cref="float"/> in bits.
+    /// The length of the exponent of a <see cref="double"/> in bits.
     /// </summary>
-    public const int ExponentBitLength = 8;
+    public const int ExponentBitLength = 11;
     #endregion
     #endregion
 
@@ -103,11 +103,11 @@ public readonly record struct FloatRep
     /// <summary>
     /// Gets the normalized logical mantissa of this instance (with no trailing 0 bits).
     /// </summary>
-    public uint NormalizedLogicalMantissa
+    public ulong NormalizedLogicalMantissa
         => NormalizedLogicalMantissaFromNormalizationShift(LogicalNormalizationShift);
 
     /// <summary>
-    /// Gets the logical (biased) exponent of the <see cref="float"/> being represented.
+    /// Gets the logical (biased) exponent of the <see cref="double"/> being represented.
     /// </summary>
     public int LogicalExponent => (LiteralExponent == 0 ? 1 : LiteralExponent) - (ExponentBias + MantissaBitLength);
 
@@ -134,44 +134,44 @@ public readonly record struct FloatRep
     }
 
     /// <summary>
-    /// Gets the logical mantissa of the <see cref="float"/> being represented.
+    /// Gets the logical mantissa of the <see cref="double"/> being represented.
     /// </summary>
     /// <remarks>
     /// This is the same as <see cref="LiteralMantissa"/>, but with the implicit 1-bit added to the left if
     /// <see cref="LiteralExponent"/> is not 0 (in which case the number is in the subnormal range).
     /// </remarks>
-    public uint LogicalMantissa => LiteralExponent == 0 ? LiteralMantissa : LiteralMantissa | ImplicitMantissaBit;
+    public ulong LogicalMantissa => LiteralExponent == 0 ? LiteralMantissa : LiteralMantissa | ImplicitMantissaBit;
     #endregion
 
     #region Characterization
     /// <summary>
-    /// Gets whether or not this instance represents a <see cref="float"/> in the (nonzero) subnormal range.
+    /// Gets whether or not this instance represents a <see cref="double"/> in the (nonzero) subnormal range.
     /// </summary>
     public bool IsSubnormal => LiteralExponent == 0 && LiteralMantissa != 0;
 
     /// <summary>
-    /// Gets whether or not this instance represents a <see cref="float"/> that is an infinity value (either positive
+    /// Gets whether or not this instance represents a <see cref="double"/> that is an infinity value (either positive
     /// or negative).
     /// </summary>
     public bool IsInfinity => LiteralExponent == MaxLiteralExponent && LiteralMantissa == 0;
 
     /// <summary>
-    /// Gets whether or not this instance represents a <see cref="float"/> that is a NaN value.
+    /// Gets whether or not this instance represents a <see cref="double"/> that is a NaN value.
     /// </summary>
     public bool IsNaN => LiteralExponent == MaxLiteralExponent && LiteralMantissa != 0;
 
     /// <summary>
-    /// Gets whether or not this instance represents a <see cref="float"/> that is finite.
+    /// Gets whether or not this instance represents a <see cref="double"/> that is finite.
     /// </summary>
     public bool IsFinite => LiteralExponent != MaxLiteralExponent;
 
     /// <summary>
-    /// Gets whether or not this instance represents a <see cref="float"/> equal to zero.
+    /// Gets whether or not this instance represents a <see cref="double"/> equal to zero.
     /// </summary>
     public bool IsZero => LiteralExponent == 0 && LiteralMantissa == 0;
 
     /// <summary>
-    /// Gets whether or not the <see cref="float"/> being represented is positive.
+    /// Gets whether or not the <see cref="double"/> being represented is positive.
     /// </summary>
     public bool IsPositive => !IsNegative;
     #endregion
@@ -179,17 +179,17 @@ public readonly record struct FloatRep
 
     #region Stored
     /// <summary>
-    /// Gets the literal exponent of the <see cref="float"/> being represented.
+    /// Gets the literal exponent of the <see cref="double"/> being represented.
     /// </summary>
-    public byte LiteralExponent { get; }
+    public ushort LiteralExponent { get; }
 
     /// <summary>
-    /// Gets the mantissa of the <see cref="float"/> being represented.
+    /// Gets the mantissa of the <see cref="double"/> being represented.
     /// </summary>
-    public uint LiteralMantissa { get; }
+    public ulong LiteralMantissa { get; }
 
     /// <summary>
-    /// Gets whether or not the <see cref="float"/> being represented is negative.
+    /// Gets whether or not the <see cref="double"/> being represented is negative.
     /// </summary>
     public bool IsNegative { get; }
     #endregion
@@ -197,17 +197,17 @@ public readonly record struct FloatRep
 
     #region Constructor
     /// <summary>
-    /// Constructs a new instance of the <see cref="FloatRep"/> struct representing the <see cref="float"/> value
+    /// Constructs a new instance of the <see cref="DoubleComponents"/> struct representing the <see cref="double"/> value
     /// passed in.
     /// </summary>
-    /// <param name="Float"></param>
-    public FloatRep(float Float)
+    /// <param name="Double"></param>
+    public DoubleComponents(double Double)
     {
-        // Translate the float into sign, exponent and mantissa.
-        var bits = BitConversions.SingleToUInt32Bits(Float);
+        // Translate the double into sign, exponent and mantissa.
+        var bits = unchecked((ulong)BitConverter.DoubleToInt64Bits(Double));
 
-        IsNegative = (bits & (1u << 31)) != 0;
-        LiteralExponent = unchecked((byte)((bits >> MantissaBitLength) & MaxLiteralExponent));
+        IsNegative = (bits & (1uL << 63)) != 0;
+        LiteralExponent = unchecked((ushort)((bits >> MantissaBitLength) & MaxLiteralExponent));
         LiteralMantissa = bits & MaxLiteralMantissa;
     }
     #endregion
@@ -218,7 +218,7 @@ public readonly record struct FloatRep
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public bool Equals(FloatRep other) => IsNegative == other.IsNegative
+    public bool Equals(DoubleComponents other) => IsNegative == other.IsNegative
                                             && LiteralExponent == other.LiteralExponent
                                             && LiteralMantissa == other.LiteralMantissa;
 
@@ -235,7 +235,7 @@ public readonly record struct FloatRep
     /// </summary>
     /// <returns></returns>
     public override string ToString()
-        => $"{nameof(FloatRep)} {{ "
+        => $"{nameof(DoubleComponents)} {{ "
             + $"IsNegative = {IsNegative}, "
             + $"Exponent = {LiteralExponent.ToString($"X{ExponentBitLength}")}, "
             + $"Mantissa = {LiteralMantissa.ToString($"X{MantissaBitLength}")} }}";
@@ -248,7 +248,7 @@ public readonly record struct FloatRep
     /// <param name="IsNegative"></param>
     /// <param name="LiteralExponent"></param>
     /// <param name="LiteralMantissa"></param>
-    public void Deconstruct(out bool IsNegative, out byte LiteralExponent, out uint LiteralMantissa)
+    public void Deconstruct(out bool IsNegative, out ushort LiteralExponent, out ulong LiteralMantissa)
     {
         IsNegative = this.IsNegative;
         LiteralExponent = this.LiteralExponent;
@@ -266,12 +266,12 @@ public readonly record struct FloatRep
     /// <param name="Exponent"></param>
     /// <param name="Mantissa"></param>
     /// <returns>
-    /// Whether or not this instance represents a finite <see cref="float"/> value.
+    /// Whether or not this instance represents a finite <see cref="double"/> value.
     /// </returns>
     /// <seealso cref="LogicalSign"/>
     /// <seealso cref="LogicalExponent"/>
     /// <seealso cref="LogicalMantissa"/>
-    public bool TryGetLogical(out int Sign, out int Exponent, out uint Mantissa)
+    public bool TryGetLogical(out int Sign, out int Exponent, out ulong Mantissa)
     {
         Sign = LogicalSign;
         Exponent = LogicalExponent;
@@ -291,12 +291,12 @@ public readonly record struct FloatRep
     /// <param name="Exponent"></param>
     /// <param name="Mantissa"></param>
     /// <returns>
-    /// Whether or not the instance represents a finite <see cref="float"/> value.
+    /// Whether or not the instance represents a finite <see cref="double"/> value.
     /// </returns>
     /// <seealso cref="LogicalSign"/>
     /// <seealso cref="NormalizedLogicalExponent"/>
     /// <seealso cref="NormalizedLogicalMantissa"/>
-    public bool TryGetNormalizedLogical(out int Sign, out int Exponent, out uint Mantissa)
+    public bool TryGetNormalizedLogical(out int Sign, out int Exponent, out ulong Mantissa)
     {
         Sign = LogicalSign;
 
@@ -310,14 +310,14 @@ public readonly record struct FloatRep
 
     #region Conversion
     /// <summary>
-    /// Gets the <see cref="float"/> value represented by this instance.
+    /// Gets the <see cref="double"/> value represented by this instance.
     /// </summary>
     /// <returns></returns>
-    public float ToFloat()
-        => BitConversions.UInt32BitsToSingle(
-            (IsNegative ? 1u << 31 : 0) // Sign
-                | (uint)LiteralExponent << MantissaBitLength // Exponent
-                | LiteralMantissa); // Mantissa
+    public double ToDouble()
+        => BitConverter.Int64BitsToDouble(unchecked((long)(
+                                            (IsNegative ? 1uL << 63 : 0) // Sign
+                                                | (ulong)LiteralExponent << MantissaBitLength // Exponent
+                                                | LiteralMantissa))); // Mantissa
     #endregion
 
     #region Helpers
@@ -327,7 +327,7 @@ public readonly record struct FloatRep
     /// <param name="shift"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private uint NormalizedLogicalMantissaFromNormalizationShift(int shift) => LogicalMantissa >> shift;
+    private ulong NormalizedLogicalMantissaFromNormalizationShift(int shift) => LogicalMantissa >> shift;
 
     /// <summary>
     /// Computes the normalized logical exponent from the precomputed normalization shift.

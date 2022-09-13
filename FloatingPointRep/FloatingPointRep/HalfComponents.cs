@@ -11,7 +11,7 @@ namespace Rem.Core.Numerics;
 /// <summary>
 /// Represents a <see cref="Half"/> as exponent, mantissa and sign bit.
 /// </summary>
-public readonly record struct HalfRep
+public readonly record struct HalfComponents
 {
     #region Constants
     #region Components
@@ -199,11 +199,11 @@ public readonly record struct HalfRep
 
     #region Constructor
     /// <summary>
-    /// Constructs a new instance of the <see cref="HalfRep"/> struct representing the <see cref="Half"/> value
+    /// Constructs a new instance of the <see cref="HalfComponents"/> struct representing the <see cref="Half"/> value
     /// passed in.
     /// </summary>
     /// <param name="Half"></param>
-    public HalfRep(Half Half)
+    public HalfComponents(Half Half)
     {
         // Translate the Half into sign, exponent and mantissa.
         var bits = BitConversions.HalfToUInt16Bits(Half);
@@ -220,7 +220,7 @@ public readonly record struct HalfRep
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public bool Equals(HalfRep other) => IsNegative == other.IsNegative
+    public bool Equals(HalfComponents other) => IsNegative == other.IsNegative
                                             && LiteralExponent == other.LiteralExponent
                                             && LiteralMantissa == other.LiteralMantissa;
 
@@ -237,7 +237,7 @@ public readonly record struct HalfRep
     /// </summary>
     /// <returns></returns>
     public override string ToString()
-        => $"{nameof(HalfRep)} {{ "
+        => $"{nameof(HalfComponents)} {{ "
             + $"IsNegative = {IsNegative}, "
             + $"Exponent = {LiteralExponent.ToString($"X{ExponentBitLength}")}, "
             + $"Mantissa = {LiteralMantissa.ToString($"X{MantissaBitLength}")} }}";

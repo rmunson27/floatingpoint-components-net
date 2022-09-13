@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup Label="Identity">
-		<Product>Rem.Core.Numerics.FloatingPoint</Product>
-		<PackageId>Rem.Core.Numerics.FloatingPoint</PackageId>
+		<Product>Rem.Core.Numerics.FloatingPointComponents</Product>
+		<PackageId>Rem.Core.Numerics.FloatingPointComponents</PackageId>
 		<RootNamespace>Rem.Core.Numerics</RootNamespace>
 		<Version>1.0</Version>
 		<Description>
-			A lightweight library containing object-oriented representations for IEEE-754 floating point types.
+			A lightweight library containing object-oriented representations of the components of IEEE-754 floating point types.
 		</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>Richard E. Munson</Authors>
