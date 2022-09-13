@@ -260,17 +260,22 @@ public readonly record struct HalfRep
     /// <summary>
     /// Deconstructs the current instance into its logical components.
     /// </summary>
-    /// <param name="IsNegative"></param>
+    /// <remarks>
+    /// If this method returns <see langword="true"/>, the value represented by this instance is equal to
+    /// <paramref name="Sign"/> * <paramref name="Mantissa"/> * 2^<paramref name="Exponent"/>.
+    /// </remarks>
+    /// <param name="Sign"></param>
     /// <param name="Exponent"></param>
     /// <param name="Mantissa"></param>
     /// <returns>
     /// Whether or not this instance represents a finite <see cref="Half"/> value.
     /// </returns>
+    /// <seealso cref="LogicalSign"/>
     /// <seealso cref="LogicalExponent"/>
     /// <seealso cref="LogicalMantissa"/>
-    public bool TryGetLogical(out bool IsNegative, out int Exponent, out ulong Mantissa)
+    public bool TryGetLogical(out int Sign, out int Exponent, out ushort Mantissa)
     {
-        IsNegative = this.IsNegative;
+        Sign = LogicalSign;
         Exponent = LogicalExponent;
         Mantissa = LogicalMantissa;
 
@@ -280,15 +285,22 @@ public readonly record struct HalfRep
     /// <summary>
     /// Deconstructs the current instance into its normalized logical components.
     /// </summary>
-    /// <param name="IsNegative"></param>
+    /// <remarks>
+    /// If this method returns <see langword="true"/>, the value represented by this instance is equal to
+    /// <paramref name="Sign"/> * <paramref name="Mantissa"/> * 2^<paramref name="Exponent"/>.
+    /// </remarks>
+    /// <param name="Sign"></param>
     /// <param name="Exponent"></param>
     /// <param name="Mantissa"></param>
     /// <returns>
     /// Whether or not the instance represents a finite <see cref="Half"/> value.
     /// </returns>
-    public bool TryGetNormalizedLogical(out bool IsNegative, out int Exponent, out ulong Mantissa)
+    /// <seealso cref="LogicalSign"/>
+    /// <seealso cref="NormalizedLogicalExponent"/>
+    /// <seealso cref="NormalizedLogicalMantissa"/>
+    public bool TryGetNormalizedLogical(out int Sign, out int Exponent, out ushort Mantissa)
     {
-        IsNegative = this.IsNegative;
+        Sign = LogicalSign;
 
         var shift = LogicalNormalizationShift;
         Exponent = NormalizedLogicalExponentFromNormalizationShift(shift);
