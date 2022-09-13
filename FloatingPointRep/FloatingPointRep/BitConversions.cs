@@ -42,7 +42,7 @@ internal static class BitConversions
     /// <summary>
     /// Gets the bits of a <see cref="Half"/> as a <see cref="ushort"/>.
     /// </summary>
-    /// <param name="f"></param>
+    /// <param name="h"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ushort HalfToUInt16Bits(Half h)
