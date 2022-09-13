@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Documentation" Condition="'$(Configuration)' == 'Release'">
-		<DocumentationFile>bin\Release\FloatingPointRep.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\FloatingPointComponents.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Language">
