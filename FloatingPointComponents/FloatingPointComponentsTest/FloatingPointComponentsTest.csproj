@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FloatingPointRep\FloatingPointComponents.csproj" />
+    <ProjectReference Include="..\FloatingPointComponents\FloatingPointComponents.csproj" />
   </ItemGroup>
 
 </Project>
