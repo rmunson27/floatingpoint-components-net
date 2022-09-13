@@ -93,7 +93,8 @@ public readonly record struct HalfRep
     public int LogicalSign => IsNegative ? -1 : 1;
 
     /// <summary>
-    /// Gets the normalized logical exponent of this instance.
+    /// Gets the normalized logical exponent of this instance (such that the normalized mantissa has no trailing
+    /// 0 bits).
     /// </summary>
     /// <remarks>
     /// This property will return 0 if this instance represents 0.
@@ -101,7 +102,7 @@ public readonly record struct HalfRep
     public int NormalizedLogicalExponent => NormalizedLogicalExponentFromNormalizationShift(LogicalNormalizationShift);
 
     /// <summary>
-    /// Gets the normalized logical mantissa of this instance.
+    /// Gets the normalized logical mantissa of this instance (with no trailing 0 bits).
     /// </summary>
     public ushort NormalizedLogicalMantissa
         => NormalizedLogicalMantissaFromNormalizationShift(LogicalNormalizationShift);
