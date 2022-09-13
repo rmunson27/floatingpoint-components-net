@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup Label="Identity">
+		<Product>Rem.Core.Numerics.FloatingPoint</Product>
+		<PackageId>Rem.Core.Numerics.FloatingPoint</PackageId>
+		<RootNamespace>Rem.Core.Numerics</RootNamespace>
+		<Version>1.0</Version>
+		<Description>
+			A lightweight library containing object-oriented representations for IEEE-754 floating point types.
+		</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Authors>Richard E. Munson</Authors>
+		<Copyright>Richard E. Munson, 2022</Copyright>
+		<PackageTags>math;floatingpoint;number;numerics</PackageTags>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Outputs">
+		<TargetFrameworks>net461;netstandard2.0;net5.0;net6.0</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<PackageReleaseNotes>
+			Created the package.
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Documentation" Condition="'$(Configuration)' == 'Release'">
+		<DocumentationFile>bin\Release\FloatingPointRep.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Language">
+		<LangVersion>10.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+		<PackageReference Include="IsExternalInit" Version="1.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+		<PackageReference Include="Nullable" Version="1.3.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+
+		<Using Remove="System.Net.Http" /><!-- This implicit using is for a package this library does not reference. -->
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="IsExternalInit" Version="1.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+		<PackageReference Include="Nullable" Version="1.3.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Rem.Core.Attributes" Version="1.3.0" />
+	</ItemGroup>
+
+</Project>
