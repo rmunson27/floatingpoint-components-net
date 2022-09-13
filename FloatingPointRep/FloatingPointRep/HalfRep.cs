@@ -250,7 +250,7 @@ public readonly record struct HalfRep
     /// <param name="IsNegative"></param>
     /// <param name="LiteralExponent"></param>
     /// <param name="LiteralMantissa"></param>
-    public void Deconstruct(out bool IsNegative, out ushort LiteralExponent, out ulong LiteralMantissa)
+    public void Deconstruct(out bool IsNegative, out byte LiteralExponent, out ushort LiteralMantissa)
     {
         IsNegative = this.IsNegative;
         LiteralExponent = this.LiteralExponent;
