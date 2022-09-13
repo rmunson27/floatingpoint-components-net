@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloatingPointRep", "FloatingPointRep\FloatingPointRep.csproj", "{9DF5201E-C515-4895-89C8-4AA5DD1B3CA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloatingPointRepTest", "FloatingPointRepTest\FloatingPointRepTest.csproj", "{9EFD7BAF-D5B6-4EB4-8B75-D276AD545A0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9DF5201E-C515-4895-89C8-4AA5DD1B3CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF5201E-C515-4895-89C8-4AA5DD1B3CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF5201E-C515-4895-89C8-4AA5DD1B3CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EFD7BAF-D5B6-4EB4-8B75-D276AD545A0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EFD7BAF-D5B6-4EB4-8B75-D276AD545A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EFD7BAF-D5B6-4EB4-8B75-D276AD545A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EFD7BAF-D5B6-4EB4-8B75-D276AD545A0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
