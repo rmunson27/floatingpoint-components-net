@@ -17,6 +17,7 @@ internal static class BitConversions
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint SingleToUInt32Bits(float f)
 #if NET5_0_OR_GREATER
         => unchecked((uint)BitConverter.SingleToInt32Bits(f));
@@ -29,6 +30,7 @@ internal static class BitConversions
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float UInt32BitsToSingle(uint i)
 #if NET5_0_OR_GREATER
         => BitConverter.Int32BitsToSingle(unchecked((int)i));
@@ -42,6 +44,7 @@ internal static class BitConversions
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ushort HalfToUInt16Bits(Half h)
 #if NET6_0_OR_GREATER
         => BitConverter.HalfToUInt16Bits(h);
