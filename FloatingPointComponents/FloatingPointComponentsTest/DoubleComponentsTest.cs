@@ -41,6 +41,17 @@ public class DoubleComponentsTest
     }
 
     /// <summary>
+    /// Ensures that the exponent bias of the <see cref="double"/> type is also the literal exponent of the constant
+    /// 1, as is stated in the documentation comments on <see cref="DoubleComponents.ExponentBias"/>.
+    /// </summary>
+    [TestMethod]
+    public void TestLiteralUnaryExponent()
+    {
+        var one = new DoubleComponents(1);
+        Assert.AreEqual(DoubleComponents.ExponentBias, one.LiteralExponent);
+    }
+
+    /// <summary>
     /// Tests categorization of various <see cref="double"/> values via the <see cref="DoubleComponents"/> type.
     /// </summary>
     [TestMethod]

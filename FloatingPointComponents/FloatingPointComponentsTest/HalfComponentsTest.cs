@@ -42,6 +42,17 @@ public class HalfComponentsTest
     }
 
     /// <summary>
+    /// Ensures that the exponent bias of the <see cref="Half"/> type is also the literal exponent of the constant
+    /// 1, as is stated in the documentation comments on <see cref="HalfComponents.ExponentBias"/>.
+    /// </summary>
+    [TestMethod]
+    public void TestLiteralUnaryExponent()
+    {
+        var one = new HalfComponents((Half)1);
+        Assert.AreEqual(HalfComponents.ExponentBias, one.LiteralExponent);
+    }
+
+    /// <summary>
     /// Tests categorization of various <see cref="Half"/> values via the <see cref="HalfComponents"/> type.
     /// </summary>
     [TestMethod]

@@ -41,6 +41,17 @@ public class FloatComponentsTest
     }
 
     /// <summary>
+    /// Ensures that the exponent bias of the <see cref="float"/> type is also the literal exponent of the constant
+    /// 1, as is stated in the documentation comments on <see cref="FloatComponents.ExponentBias"/>.
+    /// </summary>
+    [TestMethod]
+    public void TestLiteralUnaryExponent()
+    {
+        var one = new FloatComponents(1);
+        Assert.AreEqual(FloatComponents.ExponentBias, one.LiteralExponent);
+    }
+
+    /// <summary>
     /// Tests categorization of various <see cref="float"/> values via the <see cref="FloatComponents"/> type.
     /// </summary>
     [TestMethod]
