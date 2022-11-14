@@ -39,6 +39,9 @@ public readonly record struct DoubleComponents
     /// <summary>
     /// The bias of the exponent of a <see cref="double"/>.
     /// </summary>
+    /// <remarks>
+    /// This is the literal exponent of the <see cref="double"/> equivalent of 1.
+    /// </remarks>
     public const ushort ExponentBias = 1023;
 
     /// <summary>

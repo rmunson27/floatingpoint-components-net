@@ -40,6 +40,9 @@ public readonly record struct HalfComponents
     /// <summary>
     /// The bias of the exponent of a <see cref="Half"/>.
     /// </summary>
+    /// <remarks>
+    /// This is the literal exponent of the <see cref="Half"/> equivalent of 1.
+    /// </remarks>
     public const byte ExponentBias = 15;
 
     /// <summary>

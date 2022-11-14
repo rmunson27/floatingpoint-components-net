@@ -39,6 +39,9 @@ public readonly record struct FloatComponents
     /// <summary>
     /// The bias of the exponent of a <see cref="float"/>.
     /// </summary>
+    /// <remarks>
+    /// This is the literal exponent of the <see cref="float"/> equivalent of 1.
+    /// </remarks>
     public const byte ExponentBias = 127;
 
     /// <summary>
