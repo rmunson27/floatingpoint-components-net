@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- Multi-target so we can test functionality that runs differently internally -->
-    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net4.6.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
     <RootNamespace>RemTest.Core.Numerics</RootNamespace>
@@ -28,6 +28,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FloatingPointComponents\FloatingPointComponents.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net4.6.1'">
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <Using Remove="System.Net.Http" />
   </ItemGroup>
 
 </Project>
