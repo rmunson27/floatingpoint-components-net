@@ -222,8 +222,8 @@ public readonly record struct DoubleComponents
     /// <param name="other"></param>
     /// <returns></returns>
     public bool Equals(DoubleComponents other) => IsNegative == other.IsNegative
-                                            && LiteralExponent == other.LiteralExponent
-                                            && LiteralMantissa == other.LiteralMantissa;
+                                                    && LiteralExponent == other.LiteralExponent
+                                                    && LiteralMantissa == other.LiteralMantissa;
 
     /// <summary>
     /// Gets a hash code for the current instance.
