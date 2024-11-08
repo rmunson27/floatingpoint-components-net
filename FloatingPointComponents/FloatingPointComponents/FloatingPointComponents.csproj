@@ -4,10 +4,8 @@
 		<Product>Rem.Core.Numerics.FloatingPointComponents</Product>
 		<PackageId>Rem.Core.Numerics.FloatingPointComponents</PackageId>
 		<RootNamespace>Rem.Core.Numerics</RootNamespace>
-		<Version>1.0.1</Version>
-		<Description>
-			A lightweight library containing object-oriented representations of the components of IEEE-754 floating point types.
-		</Description>
+		<Version>1.0.2</Version>
+		<Description>A lightweight library containing object-oriented representations of the components of IEEE-754 floating point types.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>Richard E. Munson</Authors>
 		<Copyright>Richard E. Munson, 2022</Copyright>
@@ -15,16 +13,15 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Outputs">
-		<!-- This library includes a .NET 5 target (despite .NET 5 being out-of-support) because that is the earliest
-			 framework that supports the System.Half type. Users should still update to .NET 6 as soon as possible, but
-			 this library offers the System.Half types that apps still stuck on .NET 5 for whatever reason need.
+		<!-- This library includes a .NET 5.0 target (despite .NET 5.0 being out-of-support) because that is the
+			 earliest framework that supports the System.Half type. Users should still update to a supported version
+			 of .NET as soon as possible, but this library offers the System.Half types needed by apps that are still
+			 stuck on .NET 5.0 for whatever reason.
 		  -->
-		<TargetFrameworks>net461;netstandard2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>net461;netstandard2.0;netstandard2.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 
 		<OutputType>Library</OutputType>
-		<PackageReleaseNotes>
-			Replaced the .NET core 3.1 target with a .NET standard 2.1 target.
-		</PackageReleaseNotes>
+		<PackageReleaseNotes>Added .NET 7.0 and .NET 8.0 targets.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Documentation" Condition="'$(Configuration)' == 'Release'">
@@ -32,7 +29,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Language">
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
